@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using GH_ImageClipboard.Resources;
 using GH_IO.Serialization;
 using Grasshopper.Kernel.Data;
+using System.Reflection;
 
 namespace Sonderwoods
 {
@@ -191,6 +192,47 @@ namespace Sonderwoods
 
         public bool CastTo<T>(out T target)
         {
+            var modules = Grasshopper.Instances.ComponentServer.Libraries;
+            foreach (GH_AssemblyInfo item in modules)
+            {
+                //Print(item.Name);
+                if (item.Name == "BitmapComponent")
+                {
+                    Assembly bmpAssembly = item.Assembly;
+
+                    
+                    
+                    foreach (Type it in bmpAssembly.GetExportedTypes())
+                    {
+                        
+                        object v = Activator.CreateInstance(it);
+
+                        foreach (PropertyInfo p in it.GetRuntimeProperties())
+                        {
+                            var k = p.Name;
+
+                            if(p.Name == "oko")
+                            {
+                                p.SetValue(v, this.Bitmap);
+                            }
+                        }
+
+                        dynamic d = (dynamic)v;
+
+                        
+                    }
+
+                    Object o = bmpAssembly.CreateInstance("GrasshopperBitmapParam");
+
+                    //dynamic cx = (dynamic)o;
+
+                    //Print(cx.ComponentGuid.ToString());
+
+                    //A = o;
+                }
+            }
+
+
             target = default;
             return false;
         }
