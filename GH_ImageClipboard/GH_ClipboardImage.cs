@@ -193,15 +193,14 @@ namespace Sonderwoods
         public bool CastTo<T>(out T target)
         {
             var modules = Grasshopper.Instances.ComponentServer.Libraries;
+
             foreach (GH_AssemblyInfo item in modules)
             {
-                //Print(item.Name);
+
                 if (item.Name == "BitmapComponent")
                 {
                     Assembly bmpAssembly = item.Assembly;
 
-                    
-                    
                     foreach (Type it in bmpAssembly.GetExportedTypes())
                     {
                         
@@ -209,7 +208,6 @@ namespace Sonderwoods
 
                         foreach (PropertyInfo p in it.GetRuntimeProperties())
                         {
-                            var k = p.Name;
 
                             if(p.Name == "oko")
                             {

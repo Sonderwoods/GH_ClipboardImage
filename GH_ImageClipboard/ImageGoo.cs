@@ -40,31 +40,8 @@ namespace Sonderwoods
             return g;
         }
 
-        public override string ToString()
-        {
-            if (Bitmap != null)
-            {
-
-                return $"Bitmap, {Bitmap.Width}x{Bitmap.Height} (Part of GH_ImageClipboard plugin)";
-            }
-            else
-            {
-                return "Null Image";
-            }
-        }
-
-        public override bool Read(GH_IReader reader)
-        {
-            if (reader.ItemExists("Image"))
-            {
-                byte[] b = reader.GetByteArray("Image");
-                MemoryStream ms = new MemoryStream(b);
-                Bitmap = new Bitmap(ms);
-
-            }
-
-            return base.Read(reader);
-        }
+        public override string ToString() => Bitmap == null ? "Null Image" : $"Bitmap, {Bitmap.Width}x{Bitmap.Height} (Part of GH_ImageClipboard plugin)";
+        
 
         public override bool CastTo<Q>(ref Q target)
         {
@@ -74,11 +51,8 @@ namespace Sonderwoods
                 case "GrasshopperBitmapGoo":
                     return CastToShapeDiver(ref target);
 
-                // System.Drawing.Bitmap
-                case "Bitmap":
+                case "Bitmap": // System.Drawing.Bitmap
                     return CastToPdfPlus(ref target);
-
-                   
 
                 default:
                     return false;
@@ -92,12 +66,23 @@ namespace Sonderwoods
             return true;
         }
 
+
+        /// <summary>
+        /// https://www.shapediver.com/blog/how-to-export-pdf-files-from-grasshopperhttps://www.shapediver.com/blog/how-to-export-pdf-files-from-grasshopper
+        /// </summary>
+        /// <typeparam name="Q"></typeparam>
+        /// <param name="target"></param>
+        /// <returns></returns>
         private bool CastToShapeDiver<Q>(ref Q target)
         {
+
+            // Since we're shipping without the shapediver dlls we have to recreate it artificially using reflection
+
             var modules = Grasshopper.Instances.ComponentServer.Libraries;
+
             foreach (GH_AssemblyInfo item in modules)
             {
-                //Print(item.Name);
+
                 if (item.Name == "BitmapComponent") // Name of the module we're looking for (shipped with ShapeDiver)
                 {
                     Assembly bmpAssembly = item.Assembly;
@@ -123,28 +108,16 @@ namespace Sonderwoods
 
                                 bitmapGooDyn.Value = Bitmap; // automatically setting the nonDyn version?
 
-                                //dynamic paramDyn = (dynamic)param;
-                                //paramDyn.SetPersistentData(bitmapGoo);
-                                //p.SetValue(param, bitmapGooDyn);
-                                //target = (Q)paramDyn;
                                 target = (Q)bitmapGoo;
 
                                 return true;
-
-
 
                             }
 
                         }
 
-
                     }
 
-
-
-                    //Object o = bmpAssembly.CreateInstance("GrasshopperBitmapParam");
-
-                    //var i = o;
                 }
             }
             return false;
@@ -159,6 +132,19 @@ namespace Sonderwoods
 
             return base.Write(writer);
 
+        }
+
+        public override bool Read(GH_IReader reader)
+        {
+            if (reader.ItemExists("Image"))
+            {
+                byte[] b = reader.GetByteArray("Image");
+                MemoryStream ms = new MemoryStream(b);
+                Bitmap = new Bitmap(ms);
+
+            }
+
+            return base.Read(reader);
         }
     }
 }
