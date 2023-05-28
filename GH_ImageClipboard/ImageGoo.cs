@@ -45,7 +45,7 @@ namespace Sonderwoods
             if (Bitmap != null)
             {
 
-                return $"Image, {Bitmap.Width}x{Bitmap.Height}";
+                return $"Bitmap, {Bitmap.Width}x{Bitmap.Height} (Part of GH_ImageClipboard plugin)";
             }
             else
             {
@@ -68,13 +68,28 @@ namespace Sonderwoods
 
         public override bool CastTo<Q>(ref Q target)
         {
-
-            if (typeof(Q).Name == "GrasshopperBitmapGoo") //Name of the type we wish to cast to
+       
+            switch (typeof(Q).Name)
             {
-                return CastToShapeDiver(ref target);
+                case "GrasshopperBitmapGoo":
+                    return CastToShapeDiver(ref target);
+
+                // System.Drawing.Bitmap
+                case "Bitmap":
+                    return CastToPdfPlus(ref target);
+
+                   
+
+                default:
+                    return false;
             }
 
-            return false;
+        }
+
+        private bool CastToPdfPlus<Q>(ref Q target)
+        {
+            target = (Q)(object)Bitmap;
+            return true;
         }
 
         private bool CastToShapeDiver<Q>(ref Q target)
