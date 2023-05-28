@@ -1,5 +1,4 @@
 ﻿using GH_ImageClipboard.Resources;
-using Grasshopper;
 using Grasshopper.Kernel;
 using System;
 using System.Drawing;

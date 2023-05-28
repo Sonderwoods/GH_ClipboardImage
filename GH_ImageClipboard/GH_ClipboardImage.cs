@@ -10,7 +10,6 @@ using System.Windows.Forms;
 using GH_ImageClipboard.Resources;
 using GH_IO.Serialization;
 using Grasshopper.Kernel.Data;
-using System.Reflection;
 
 namespace Sonderwoods
 {
@@ -192,47 +191,9 @@ namespace Sonderwoods
 
         public bool CastTo<T>(out T target)
         {
-            var modules = Grasshopper.Instances.ComponentServer.Libraries;
-
-            foreach (GH_AssemblyInfo item in modules)
-            {
-
-                if (item.Name == "BitmapComponent")
-                {
-                    Assembly bmpAssembly = item.Assembly;
-
-                    foreach (Type it in bmpAssembly.GetExportedTypes())
-                    {
-                        
-                        object v = Activator.CreateInstance(it);
-
-                        foreach (PropertyInfo p in it.GetRuntimeProperties())
-                        {
-
-                            if(p.Name == "oko")
-                            {
-                                p.SetValue(v, this.Bitmap);
-                            }
-                        }
-
-                        dynamic d = (dynamic)v;
-
-                        
-                    }
-
-                    Object o = bmpAssembly.CreateInstance("GrasshopperBitmapParam");
-
-                    //dynamic cx = (dynamic)o;
-
-                    //Print(cx.ComponentGuid.ToString());
-
-                    //A = o;
-                }
-            }
-
-
             target = default;
             return false;
+
         }
 
         public object ScriptVariable()
@@ -273,6 +234,12 @@ namespace Sonderwoods
 
             #region Methods
 
+            /// <summary>
+            /// Decompiled and slightly modified from the ImageSampler in grasshopper
+            /// </summary>
+            /// <param name="canvas"></param>
+            /// <param name="graphics"></param>
+            /// <param name="channel"></param>
             protected override void Render(GH_Canvas canvas, Graphics graphics, GH_CanvasChannel channel)
             {
                 switch (channel)
@@ -282,7 +249,9 @@ namespace Sonderwoods
                             break;
                         this.RenderIncomingWires(canvas.Painter, (IEnumerable<IGH_Param>)this.Owner.Sources, this.Owner.WireDisplay);
                         break;
+
                     case GH_CanvasChannel.Objects:
+
                         GH_Viewport viewport = canvas.Viewport;
                         RectangleF bounds = this.Bounds;
                         ref RectangleF local = ref bounds;
@@ -327,7 +296,7 @@ namespace Sonderwoods
 
                         }
 
-                        //GH_GraphicsUtil.ShadowRectangle(graphics, rectangle1, 15);
+                        //GH_GraphicsUtil.ShadowRectangle(graphics, rectangle1, 15);   // Or turn me on? If you're into shadows and stuff ;) 
                         graphics.ResetClip();
                         graphics.DrawRectangle(Pens.Black, rectangle1);
                         break;

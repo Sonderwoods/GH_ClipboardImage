@@ -5,7 +5,6 @@ using System.IO;
 using Grasshopper.Kernel;
 using System.Reflection;
 using System;
-using System.CodeDom;
 
 namespace Sonderwoods
 {
