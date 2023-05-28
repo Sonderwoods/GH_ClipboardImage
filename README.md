@@ -7,3 +7,15 @@ A quick grasshopper plugin to paste images to and from clipboard and serialize t
 ![image](https://github.com/Sonderwoods/GH_ClipboardImage/assets/19936679/849d670d-c93a-4d7a-9d17-7aee166b4c80)
 
 - Can be used for [ShapeDiverPDF](https://www.shapediver.com/blog/how-to-export-pdf-files-from-grasshopper)
+
+## Install:
+
+[Food4Rhino/ClipboardImage](https://www.food4rhino.com/en/app/clipboardimage)
+
+OR 
+
+PackageManager:
+
+
+![image](https://github.com/Sonderwoods/GH_ClipboardImage/assets/19936679/028258ae-5c4f-4797-8a98-62c81a33143d)
+
