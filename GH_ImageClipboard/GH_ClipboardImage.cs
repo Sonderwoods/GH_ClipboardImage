@@ -203,7 +203,20 @@ namespace Sonderwoods
 
         protected override Bitmap Icon => Icons.CopyIcon;
 
-        public bool IsValid => VolatileDataCount > 0 ? ((GH_BitmapGoo)(VolatileData.get_Branch(0)[0])).IsValid : CurrentData.IsEmpty ? false : CurrentData.get_FirstItem(false) == null ? false : CurrentData.get_FirstItem(false).IsValid ? true : false;
+        public bool IsValid
+        {
+            get
+            {
+                if (VolatileDataCount < 1) return false;
+                else if (VolatileData.get_Branch(0)[0] == null) return false;
+                else if (((GH_BitmapGoo)(VolatileData.get_Branch(0)[0])).IsValid == false) return false;
+                else if (CurrentData.IsEmpty == true) return false;
+                else if (CurrentData.get_FirstItem(false) == null) return false;
+                else if (CurrentData.get_FirstItem(false).IsValid != true) return false;
+                else return true;
+
+            }
+        }
 
         public string IsValidWhyNot => "its not valid";
 
