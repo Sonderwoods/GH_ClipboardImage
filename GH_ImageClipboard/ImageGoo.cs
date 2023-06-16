@@ -40,7 +40,19 @@ namespace Sonderwoods
         }
 
         public override string ToString() => Bitmap == null ? "Null Image" : $"Bitmap, {Bitmap.Width}x{Bitmap.Height} (Part of GH_ImageClipboard plugin)";
-        
+
+        public override bool CastFrom(object source)
+        {
+            if (source.GetType () == typeof(Bitmap)) 
+            {
+
+                this.Bitmap = (Bitmap)source;
+                return true;
+            }
+
+            return false;
+            //return base.CastFrom(source);
+        }
 
         public override bool CastTo<Q>(ref Q target)
         {
