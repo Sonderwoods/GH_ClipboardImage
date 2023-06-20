@@ -33,7 +33,6 @@ namespace GH_ImageClipboard
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddGenericParameter("out", "out", "out", GH_ParamAccess.item);
-            pManager.AddGenericParameter("out2", "out2", "out2", GH_ParamAccess.item);
         }
 
         /// <summary>
