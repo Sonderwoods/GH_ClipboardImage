@@ -6,6 +6,8 @@
     <Title>GH_ImageClipboard</Title>
     <Description>Description of GH_ImageClipboard</Description>
     <TargetExt>.gha</TargetExt>
+    <FileVersion>1.0.2.0</FileVersion>
+    <AssemblyVersion>1.0.2.0</AssemblyVersion>
   </PropertyGroup>
   
   <ItemGroup>
@@ -14,7 +16,9 @@
   
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="PresentationCore" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   
   <ItemGroup>
